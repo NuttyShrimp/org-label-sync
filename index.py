@@ -22,15 +22,17 @@ for project in config.projects:
             if newLabel['name'] == label['name']:
                 skippedLabels.append(label['name'])
 
-    for label in [l for l in labels if not l in skippedLabels]:
-        res = requests.delete(f"https://api.github.com/repos/{config.org}/{project}/labels/{label['name']}", headers={
-            "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {config.token}"
-        })
-        if res.status_code >= 300:
-            print(f"failed to delete {label['name']} to {project}", res.status_code, res.json())
-        else:
-            print(f'Removed {label["name"]} from {project}')
+    if (config.shouldDeleteUnknown):
+        print(f"Deleting unknown labels vor {project}")
+        for label in [l for l in labels if not l['name'] in skippedLabels]:
+            res = requests.delete(f"https://api.github.com/repos/{config.org}/{project}/labels/{label['name']}", headers={
+                "Accept": "application/vnd.github+json",
+                "Authorization": f"Bearer {config.token}"
+            })
+            if res.status_code >= 300:
+                print(f"failed to delete {label['name']} to {project}", res.status_code, res.json())
+            else:
+                print(f'Removed {label["name"]} from {project}')
 
 
     for label in [l for l in config.newLabels if not l['name'] in skippedLabels]:

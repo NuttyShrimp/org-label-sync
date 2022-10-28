@@ -1,5 +1,7 @@
 token='PASTE-YOUR-GH-TOKEN-HERE'
 org = 'ZeusWPI'
+# deletes labels that are not tlisted in newLabels array
+shouldDeleteUnknown = False
 projects = [
     "ZeusWPI",
     "Haldis",
@@ -52,5 +54,15 @@ newLabels = [
         "color": "7057ff",
         "description": "Good for newcomers",
     },
+    {
+        "name": "chore",
+        "color": "D9C95E",
+        "description": "",
+    },
+    {
+        "name": "wontfix",
+        "color": "939A95",
+        "description": "Will not be worked on",
+    }
 ]
 
